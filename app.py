@@ -4,6 +4,7 @@ from flask import Flask, request
 import os
 from dotenv import load_dotenv
 import time
+import datetime
 
 app = Flask(__name__)
 load_dotenv()
@@ -48,20 +49,33 @@ def get_trips_by_route_id(id: int):
 
         req.get_method = lambda: 'GET'
         response = urllib.request.urlopen(req)
-        # print(response.getcode())
-        # print(json.loads(response.read()))
+        
+        route_63_innovation = { # relevant stops with stop id as key and mins to TM as value
+            "665": 8, # March Road / Solandt
+            "7985": 13, # March Road / Carling
+        }
+
         trips = []
         for obj in json.loads(response.read())['Entity']:
             # print(obj['TripUpdate'])
             if (obj['TripUpdate']['Trip']['RouteId'] != "63"): # testing only 63 for now
                 continue
             for upd in obj['TripUpdate']['StopTimeUpdate']:
-                if (upd['StopId'] == "665"):
+                if (route_63_innovation[upd['StopId']]):
                     print("ooga booga")
-                    trips.append(obj)
+                    trips.append(upd) # we only need this field
 
         print(trips)
         print(len(trips))
+
+        for trip in trips:
+            time_to_next = trip["Arrival"]["Time"]
+            next_stop = trip["StopId"]
+
+            arrival_time = calculate_time(time_to_next) + route_63_innovation[next_stop] # time to get to next stop and time from that stop to TM
+            if (arrival_time < 600): # 10 minutes
+                print("Your bus (63) is arriving in " + arrival_time + " minutes")
+
     except Exception as e:
         print(e)
 
@@ -105,13 +119,10 @@ def post_put_challenge():
 try:
     while True:
         get_trips_by_route_id(97)
-        time.sleep(10)
+        time.sleep(20)
 
 except Exception as e:
     print(f"Exception found: {e}")
-#     arrival_time = calculate_time(next_stop) + route_63_innovation["next_stop"] # time to get to next stop and time from that stop to TM
-#     if (arrival_time < 600): # 10 minutes
-#         print("Your bus (63) is arriving in " + arrival_time + " minutes")
 
 if __name__ == '__main__':
 
