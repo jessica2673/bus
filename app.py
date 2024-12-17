@@ -62,7 +62,7 @@ def get_trips_by_route_id(id: int):
 # routes
 @app.route('/')
 def hello():
-    print("hello")
+    return 'Hello Busin'
 
 # @app.route('/bus')
 # def query(): # requires the next stop as input and estimated arrival time
@@ -75,8 +75,12 @@ def hello():
 #     if (arrival_time < 600): # 10 minutes
 #         print("Your bus (63) is arriving in " + arrival_time + " minutes")
 
+if __name__ == '__main__':
 
-try:
-    get_trips_by_route_id(97)
-except Exception as e:
-    print(f"Exception found: {e}")
+    # run() method of Flask class runs the application 
+    # on the local development server.
+    app.run()
+    # try:
+    #     get_trips_by_route_id(97)
+    # except Exception as e:
+    #     print(f"Exception found: {e}")
