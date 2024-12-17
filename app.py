@@ -67,6 +67,9 @@ def get_challenge():
         print(request.args)
         challenge = request.args.get('challenge')
         print(challenge)
+
+        # data=request.json
+        # print(data)
         return f"{challenge}"
     except Exception as e:
         return f"Error: {e}"
@@ -79,6 +82,9 @@ def post_put_challenge():
         print(request.form)
         challenge = request.form.get('challenge')  # For form data in POST/PUT
         print(challenge)
+        
+        data=request.json
+        print(data)
         return f"{challenge}"
     except Exception as e:
         return f"Error: {e}"
