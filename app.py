@@ -190,14 +190,14 @@ if __name__ == '__main__':
     app.run()
 
 
-    count = 0
-    while True:
-        blocks = None
-        requests.post('https://slack.com/api/chat.postMessage', {
-            'token': os.getenv("SLACK_APP_TOKEN"),
-            'channel': 'busin',
-            'text': f'MIMIMIMIMIx{count}',
-            'blocks': json.dumps(blocks) if blocks else None
-        }).json()
-        count += 1
-        time.sleep(5)
+    # count = 0
+    # while True:
+    #     blocks = None
+    #     requests.post('https://slack.com/api/chat.postMessage', {
+    #         'token': os.getenv("SLACK_APP_TOKEN"),
+    #         'channel': 'busin',
+    #         'text': f'MIMIMIMIMIx{count}',
+    #         'blocks': json.dumps(blocks) if blocks else None
+    #     }).json()
+    #     count += 1
+    #     time.sleep(5)
