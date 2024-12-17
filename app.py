@@ -79,13 +79,13 @@ def get_challenge():
 def post_put_challenge():
     try:
         print('POOOOOST')
-        print(request.form)
-        challenge = request.form.get('challenge')  # For form data in POST/PUT
-        print(challenge)
+        # print(request.form)
+        # challenge = request.form.get('challenge')  # For form data in POST/PUT
+        # print(challenge)
         
         data=request.json
         print(data)
-        return f"{challenge}"
+        return f"{data['challenge']}"
     except Exception as e:
         return f"Error: {e}"
 
