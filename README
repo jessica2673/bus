@@ -1,1 +1,18 @@
 our bus app!
+
+### Installation
+
+1. Create a Virtual Environment
+```
+python3 -m venv venv
+```
+
+2. Activate the Virtual Environment
+```
+source venv/bin/activate
+```
+
+3. Install required dependencies
+```
+pip install -r requirements.txt
+```
