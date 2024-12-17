@@ -4,6 +4,7 @@ from flask import Flask, request
 import os
 from dotenv import load_dotenv
 import time
+from time import strftime, localtime
 
 app = Flask(__name__)
 load_dotenv()
@@ -53,14 +54,18 @@ def get_trips_by_route_id(id: int):
         trips = []
         for obj in json.loads(response.read())['Entity']:
             # print(obj['TripUpdate'])
-            if (obj['TripUpdate']['Trip']['RouteId'] != "63"): # testing only 63 for now
+            if (obj['TripUpdate']['Trip']['RouteId'] != "64"): # testing only 63 for now
                 continue
             for upd in obj['TripUpdate']['StopTimeUpdate']:
                 if (upd['StopId'] == "665"):
-                    print("ooga booga")
+                    if upd['Arrival'] is None:
+                        print("No departure found")
+                        continue
+                    timeArrive = strftime('%Y-%m-%d %H:%M:%S', localtime(upd['Arrival']['Time']))
+                    print(timeArrive)
                     trips.append(obj)
 
-        print(trips)
+        #print(trips)
         print(len(trips))
     except Exception as e:
         print(e)
@@ -113,12 +118,3 @@ except Exception as e:
 #     if (arrival_time < 600): # 10 minutes
 #         print("Your bus (63) is arriving in " + arrival_time + " minutes")
 
-if __name__ == '__main__':
-
-    # run() method of Flask class runs the application 
-    # on the local development server.
-    app.run()
-    # try:
-    #     get_trips_by_route_id(97)
-    # except Exception as e:
-    #     print(f"Exception found: {e}")
