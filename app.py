@@ -36,7 +36,7 @@ def get_vehicle_positions():
     except Exception as e:
         print(e)
 
-def get_trips_by_route_id(id: int):
+def get_trips_by_route_id(id: str):
     try:
         url = "https://nextrip-public-api.azure-api.net/octranspo/gtfs-rt-tp/beta/v1/TripUpdates?format=json"
 
@@ -51,10 +51,13 @@ def get_trips_by_route_id(id: int):
         req.get_method = lambda: 'GET'
         response = urllib.request.urlopen(req)
         
-        route_63_innovation = { # relevant stops with stop id as key and mins to TM as value
-            "665": 8, # March Road / Solandt
-            "7985": 13, # March Road / Carling
+        routes = { # relevant stops with stop id as key and mins to TM as value
+            "63": { # route_63_innovation
+                "665": 8, # March Road / Solandt
+                "663": 13, # March Road / Carling
+            },
         }
+        
 
         trips = []
         for obj in json.loads(response.read())['Entity']:
@@ -62,7 +65,7 @@ def get_trips_by_route_id(id: int):
             if (obj['TripUpdate']['Trip']['RouteId'] != "64"): # testing only 63 for now
                 continue
             for upd in obj['TripUpdate']['StopTimeUpdate']:
-                if (upd['StopId'] == "665"):
+                if (upd['StopId'] in routes[id]):
                     if upd['Arrival'] is None:
                         print("No departure found")
                         continue
@@ -77,7 +80,7 @@ def get_trips_by_route_id(id: int):
             time_to_next = trip["Arrival"]["Time"]
             next_stop = trip["StopId"]
 
-            arrival_time = calculate_time(time_to_next) + route_63_innovation[next_stop] # time to get to next stop and time from that stop to TM
+            arrival_time = calculate_time(time_to_next) + routes[id][next_stop] # time to get to next stop and time from that stop to TM
             if (arrival_time < 600): # 10 minutes
                 print("Your bus (63) is arriving in " + arrival_time + " minutes")
 
