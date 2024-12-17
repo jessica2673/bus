@@ -114,8 +114,10 @@ def post_put_challenge():
         print(request)
         data=request.json
         print(data)
-        text = data['text']
-        print(text)
+        file_path = 'test.json'
+        with open(file_path, 'w') as json_file:
+            json_file.write(json.dumps(data))
+        text = "ooga"
         if text in ["hi", "hello"]:
             post_message_to_slack(text="Hello! Enter your nearest bus stop: ")
         return f"{data['challenge']}"
