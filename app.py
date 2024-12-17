@@ -4,6 +4,8 @@ from flask import Flask, request
 import os
 from dotenv import load_dotenv
 import time
+from slack_sdk.errors import SlackApiError
+from slack_sdk.webhook import WebhookClient
 
 app = Flask(__name__)
 load_dotenv()
@@ -79,10 +81,20 @@ def get_challenge():
         return f"{challenge}"
     except Exception as e:
         return f"Error: {e}"
+    
+def send_slack_message(user_id, message): 
+    try: 
+        slack_client.chat_postMessage(channel=user_id, text=message) 
+    except SlackApiError as e: 
+        print(f"Error sending message: {e.response['error']}")
 
 # POST and PUT request handler
 @app.route('/', methods=['POST', 'PUT'])
 def post_put_challenge():
+    event = data["event"]
+    used_id = event.get("user")
+    text = event.get("text", "").lower()
+
     try:
         print('POOOOOST')
         # print(request.form)
@@ -91,6 +103,9 @@ def post_put_challenge():
         
         data=request.json
         print(data)
+        if text in ["hi", "hello"]:
+            # Ask the user for their location (latitude and longitude)
+            send_slack_message(user_id, "Hello! Enter your nearest bus stop: ")
         return f"{data['challenge']}"
     except Exception as e:
         return f"Error: {e}"
