@@ -4,8 +4,8 @@ from flask import Flask, request
 import os
 from dotenv import load_dotenv
 import time
-from slack_sdk.errors import SlackApiError
-from slack_sdk.webhook import WebhookClient
+# from slack_sdk.errors import SlackApiError
+# from slack_sdk.webhook import WebhookClient
 
 app = Flask(__name__)
 load_dotenv()
