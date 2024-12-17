@@ -132,6 +132,7 @@ def post_put_challenge():
         # print(request.form)
         # challenge = request.form.get('challenge')  # For form data in POST/PUT
         # print(challenge)
+        print(request)
         data=request.json
         print(data)
         text = data['text']
