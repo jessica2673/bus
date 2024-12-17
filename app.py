@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 import time
 from time import strftime, localtime
 import datetime
-from slack_sdk.errors import SlackApiError
-from slack_sdk.webhook import WebhookClient
+# from slack_sdk.errors import SlackApiError
+# from slack_sdk.webhook import WebhookClient
 
 app = Flask(__name__)
 load_dotenv()
