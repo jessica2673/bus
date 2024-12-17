@@ -41,7 +41,7 @@ def get_trips_by_route_id(id: int):
         hdr ={
             # Request headers
             'Cache-Control': 'no-cache',
-            'Ocp-Apim-Subscription-Key': '2946d77caec44abf9b829e13aaa24595',
+            'Ocp-Apim-Subscription-Key': str(os.getenv('API_KEY')),
         }
 
         req = urllib.request.Request(url, headers=hdr)
@@ -52,8 +52,14 @@ def get_trips_by_route_id(id: int):
         # print(json.loads(response.read()))
         trips = []
         for obj in json.loads(response.read())['Entity']:
-            if (obj['TripUpdate']['Trip']['RouteId'] == str(id)):
-                trips.append(obj)
+            # print(obj['TripUpdate'])
+            if (obj['TripUpdate']['Trip']['RouteId'] != "63"): # testing only 63 for now
+                continue
+            for upd in obj['TripUpdate']['StopTimeUpdate']:
+                if (upd['StopId'] == "665"):
+                    print("ooga booga")
+                    trips.append(obj)
+
         print(trips)
         print(len(trips))
     except Exception as e:
@@ -77,6 +83,9 @@ def query(): # requires the next stop as input and estimated arrival time
 
 
 try:
-    get_trips_by_route_id(97)
+    while True:
+        get_trips_by_route_id(97)
+        time.sleep(10)
+
 except Exception as e:
     print(f"Exception found: {e}")
