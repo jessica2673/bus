@@ -117,13 +117,13 @@ def post_put_challenge():
 #         "7985": 13, # March Road / Carling
 #     }
 
-try:
-    while True:
-        get_trips_by_route_id(97)
-        time.sleep(10)
+# try:
+#     while True:
+#         get_trips_by_route_id(97)
+#         time.sleep(10)
 
-except Exception as e:
-    print(f"Exception found: {e}")
+# except Exception as e:
+#     print(f"Exception found: {e}")
 #     arrival_time = calculate_time(next_stop) + route_63_innovation["next_stop"] # time to get to next stop and time from that stop to TM
 #     if (arrival_time < 600): # 10 minutes
 #         print("Your bus (63) is arriving in " + arrival_time + " minutes")
