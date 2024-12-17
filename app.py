@@ -22,7 +22,7 @@ def calculate_time(arrival_time):
 def post_message_to_slack(text: str, blocks: List[Dict[str, str]] = None, channel: str = os.getenv("SLACK_APP_CHANNEL")):
     print("token ", os.getenv("SLACK_APP_TOKEN"))
     print("channel ", os.getenv("SLACK_APP_CHANNEL"))
-    if (channel is "D085VHCS7T3"):
+    if channel == "D085VHCS7T3":
         text = "mimimimimimi"
     return requests.post('https://slack.com/api/chat.postMessage', {
         'token': os.getenv("SLACK_APP_TOKEN"),
