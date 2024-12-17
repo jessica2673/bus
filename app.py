@@ -102,19 +102,19 @@ def get_challenge():
 # POST and PUT request handler
 @app.route('/', methods=['POST', 'PUT'])
 def post_put_challenge():
-    event = data["event"]
-    used_id = event.get("user")
-    text = event.get("text", "").lower()
+    # event = data["event"]
+    # used_id = event.get("user")
+    # text = event.get("text", "").lower()
 
     try:
         print('POOOOOST')
         # print(request.form)
         # challenge = request.form.get('challenge')  # For form data in POST/PUT
         # print(challenge)
-        
         data=request.json
         print(data)
         text = data['text']
+        print(text)
         if text in ["hi", "hello"]:
             post_message_to_slack(text="Hello! Enter your nearest bus stop: ")
         return f"{data['challenge']}"
