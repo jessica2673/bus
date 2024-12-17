@@ -19,11 +19,11 @@ def calculate_time(arrival_time):
     print(current_timestamp)
     return arrival_time - current_timestamp
 
-def post_message_to_slack(text: str, blocks: List[Dict[str, str]] = None):
+def post_message_to_slack(text: str, blocks: List[Dict[str, str]] = None, channel: str = os.getenv("SLACK_APP_CHANNEL")):
     print(os.getenv("SLACK_APP_TOKEN"))
     return requests.post('https://slack.com/api/chat.postMessage', {
         'token': os.getenv("SLACK_APP_TOKEN"),
-        'channel': os.getenv("SLACK_APP_CHANNEL"),
+        'channel': channel,
         'text': text,
         'blocks': json.dumps(blocks) if blocks else None
     }).json()
@@ -141,8 +141,9 @@ def post_put_challenge():
         # with open(file_path, 'w') as json_file:
         #     json_file.write(json.dumps(data))
         text = data["event"]["text"]
+        channel = data['event']['channel']
         if text in ["hi", "hello"]:
-            post_message_to_slack(text="Hello! Enter your nearest bus stop: ")
+            post_message_to_slack(text="Hello! Enter your nearest bus stop: ", channel=channel)
         return f"{data['challenge']}"
     except Exception as e:
         return f"Error: {e}"
