@@ -59,22 +59,23 @@ def get_trips_by_route_id(id: int):
     except Exception as e:
         print(e)
 
-# routes
+# GET request handler
 @app.route('/', methods=['GET'])
-def hello():
+def get_challenge():
     try:
         challenge = request.args.get('challenge')
-        return f"{challenge}"
+        return f"Challenge value from GET: {challenge}"
     except Exception as e:
-        return f"{e}"
-    
+        return f"Error: {e}"
+
+# POST and PUT request handler
 @app.route('/', methods=['POST', 'PUT'])
-def hello():
+def post_put_challenge():
     try:
-        challenge = request.form.get('challenge')
-        return f"{challenge}"
+        challenge = request.form.get('challenge')  # For form data in POST/PUT
+        return f"Challenge value from POST/PUT: {challenge}"
     except Exception as e:
-        return f"{e}"
+        return f"Error: {e}"
 
 # @app.route('/bus')
 # def query(): # requires the next stop as input and estimated arrival time
