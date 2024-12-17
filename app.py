@@ -131,7 +131,8 @@ def post_put_challenge():
         text = data["event"]["text"]
         channel = data['event']['channel']
         if channel == "D085VHCS7T3":
-            post_message_to_slack(text="mimimimimimimimimimimimi 🦆🦆🦆")
+            for i in range(69):
+                post_message_to_slack(text="mimimimimimimimimimimimi 🦆🦆🦆", channel=channel)
         elif text in ["hi", "hello"]:
             # wait_on_station = True
             post_message_to_slack(text="Hello! Enter your nearest bus stop: ", channel=channel)
