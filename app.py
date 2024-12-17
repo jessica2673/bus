@@ -2,8 +2,10 @@
 import urllib.request, json
 from flask import Flask
 import os
+from dotenv import load_dotenv
 
 app = Flask(__name__)
+load_dotenv()
 
 
 @app.route('/bus')
@@ -16,7 +18,7 @@ try:
     hdr ={
         # Request headers
         'Cache-Control': 'no-cache',
-        'Ocp-Apim-Subscription-Key': str(os.environ.get('API_KEY')),
+        'Ocp-Apim-Subscription-Key': str(os.getenv('API_KEY')),
     }
 
     req = urllib.request.Request(url, headers=hdr)
