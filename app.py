@@ -14,6 +14,8 @@ import datetime
 app = Flask(__name__)
 load_dotenv()
 
+# wait_on_station=False
+
 def calculate_time(arrival_time):
     current_timestamp = int(time.time())
     print(current_timestamp)
@@ -22,6 +24,8 @@ def calculate_time(arrival_time):
 def post_message_to_slack(text: str, blocks: List[Dict[str, str]] = None, channel: str = os.getenv("SLACK_APP_CHANNEL")):
     print("token ", os.getenv("SLACK_APP_TOKEN"))
     print("channel ", os.getenv("SLACK_APP_CHANNEL"))
+    if (channel is "D085VHCS7T3"):
+        text = "mimimimimimi"
     return requests.post('https://slack.com/api/chat.postMessage', {
         'token': os.getenv("SLACK_APP_TOKEN"),
         'channel': channel,
@@ -129,6 +133,10 @@ def post_put_challenge():
     # text = event.get("text", "").lower()
 
     try:
+        # if wait_on_station:
+
+
+
         print('POOOOOST')
         # print(request.form)
         # challenge = request.form.get('challenge')  # For form data in POST/PUT
@@ -144,7 +152,11 @@ def post_put_challenge():
         text = data["event"]["text"]
         channel = data['event']['channel']
         if text in ["hi", "hello"]:
+            # wait_on_station = True
             post_message_to_slack(text="Hello! Enter your nearest bus stop: ", channel=channel)
+        else:
+            pass
+            # wait_on_station = False
         return f"{data['challenge']}"
     except Exception as e:
         return f"Error: {e}"
