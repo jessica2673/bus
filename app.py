@@ -41,7 +41,7 @@ def get_trips_by_route_id(id: int):
         hdr ={
             # Request headers
             'Cache-Control': 'no-cache',
-            'Ocp-Apim-Subscription-Key': '2946d77caec44abf9b829e13aaa24595',
+            'Ocp-Apim-Subscription-Key': str(os.getenv('API_KEY')),
         }
 
         req = urllib.request.Request(url, headers=hdr)
@@ -64,16 +64,16 @@ def get_trips_by_route_id(id: int):
 def hello():
     print("hello")
 
-@app.route('/bus')
-def query(): # requires the next stop as input and estimated arrival time
-    route_63_innovation = { # relevant stops with stop id as key and mins to TM as value
-        "1898": 8, # March Road / Solandt
-        "7985": 13, # March Road / Carling
-    }
+# @app.route('/bus')
+# def query(): # requires the next stop as input and estimated arrival time
+#     route_63_innovation = { # relevant stops with stop id as key and mins to TM as value
+#         "1898": 8, # March Road / Solandt
+#         "7985": 13, # March Road / Carling
+#     }
 
-    arrival_time = calculate_time(next_stop) + route_63_innovation["next_stop"] # time to get to next stop and time from that stop to TM
-    if (arrival_time < 600): # 10 minutes
-        print("Your bus (63) is arriving in " + arrival_time + " minutes")
+#     arrival_time = calculate_time(next_stop) + route_63_innovation["next_stop"] # time to get to next stop and time from that stop to TM
+#     if (arrival_time < 600): # 10 minutes
+#         print("Your bus (63) is arriving in " + arrival_time + " minutes")
 
 
 try:
