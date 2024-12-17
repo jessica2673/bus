@@ -58,11 +58,10 @@ def get_trips_by_route_id(id: str):
             },
         }
         
-
         trips = []
         for obj in json.loads(response.read())['Entity']:
             # print(obj['TripUpdate'])
-            if (obj['TripUpdate']['Trip']['RouteId'] != "64"): # testing only 63 for now
+            if (obj['TripUpdate']['Trip']['RouteId'] != id):
                 continue
             for upd in obj['TripUpdate']['StopTimeUpdate']:
                 if (upd['StopId'] in routes[id]):
@@ -70,10 +69,10 @@ def get_trips_by_route_id(id: str):
                         print("No departure found")
                         continue
                     timeArrive = strftime('%Y-%m-%d %H:%M:%S', localtime(upd['Arrival']['Time']))
-                    print(timeArrive)
+                    print("debugging timeArrive: " + timeArrive)
                     trips.append(obj)
 
-        #print(trips)
+        print(trips)
         print(len(trips))
 
         for trip in trips:
@@ -82,7 +81,7 @@ def get_trips_by_route_id(id: str):
 
             arrival_time = calculate_time(time_to_next) + routes[id][next_stop] # time to get to next stop and time from that stop to TM
             if (arrival_time < 600): # 10 minutes
-                print("Your bus (63) is arriving in " + arrival_time + " minutes")
+                print("Your bus is arriving in " + arrival_time + " minutes")
 
     except Exception as e:
         print(e)
@@ -126,7 +125,7 @@ def post_put_challenge():
 
 try:
     while True:
-        get_trips_by_route_id(97)
+        get_trips_by_route_id(64)
         time.sleep(20)
 
 except Exception as e:
