@@ -18,7 +18,8 @@ def calculate_time(arrival_time):
     return arrival_time - current_timestamp
 
 def post_message_to_slack(text: str, blocks: List[Dict[str, str]] = None, channel: str = os.getenv("SLACK_APP_CHANNEL")):
-    print(os.getenv("SLACK_APP_TOKEN"))
+    print("token ", os.getenv("SLACK_APP_TOKEN"))
+    print("channel ", os.getenv("SLACK_APP_CHANNEL"))
     return requests.post('https://slack.com/api/chat.postMessage', {
         'token': os.getenv("SLACK_APP_TOKEN"),
         'channel': channel,
