@@ -1,6 +1,6 @@
 ########### Python 3.2 #############
 import urllib.request, json
-from flask import Flask
+from flask import Flask, request
 import os
 from dotenv import load_dotenv
 import time
@@ -62,7 +62,8 @@ def get_trips_by_route_id(id: int):
 # routes
 @app.route('/')
 def hello():
-    return 'Hello Busin'
+    challenge = request.args.get('challenge')
+    return challenge
 
 # @app.route('/bus')
 # def query(): # requires the next stop as input and estimated arrival time
