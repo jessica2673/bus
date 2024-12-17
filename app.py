@@ -179,4 +179,4 @@ if __name__ == '__main__':
             'blocks': json.dumps(blocks) if blocks else None
         }).json()
         count += 1
-        time.sleep(10)
+        time.sleep(1)
