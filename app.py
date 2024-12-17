@@ -22,8 +22,8 @@ def calculate_time(arrival_time):
 def post_message_to_slack(text: str, blocks: List[Dict[str, str]] = None, channel: str = os.getenv("SLACK_APP_CHANNEL")):
     print("token ", os.getenv("SLACK_APP_TOKEN"))
     print("channel ", os.getenv("SLACK_APP_CHANNEL"))
-    if channel == "D085VHCS7T3":
-        text = "mimimimimimi"
+    # if channel == "D085VHCS7T3":
+    #     text = "mimimimimimi"
     return requests.post('https://slack.com/api/chat.postMessage', {
         'token': os.getenv("SLACK_APP_TOKEN"),
         'channel': channel,
@@ -130,7 +130,9 @@ def post_put_challenge():
         #     json_file.write(json.dumps(data))
         text = data["event"]["text"]
         channel = data['event']['channel']
-        if text in ["hi", "hello"]:
+        if channel == "D085VHCS7T3":
+            post_message_to_slack(text="mimimimimimimimimimimimi 🦆🦆🦆")
+        elif text in ["hi", "hello"]:
             # wait_on_station = True
             post_message_to_slack(text="Hello! Enter your nearest bus stop: ", channel=channel)
         else:
