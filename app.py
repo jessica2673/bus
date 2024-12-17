@@ -63,7 +63,7 @@ def get_trips_by_route_id(id: int):
 @app.route('/')
 def hello():
     challenge = request.args.get('challenge')
-    return challenge
+    return f"{challenge}"
 
 # @app.route('/bus')
 # def query(): # requires the next stop as input and estimated arrival time
