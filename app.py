@@ -3,14 +3,15 @@ import urllib.request, json
 from flask import Flask
 import os
 from dotenv import load_dotenv
+import time
 
 app = Flask(__name__)
 load_dotenv()
 
-
-@app.route('/bus')
-def hello():
-    print("hello")
+def calculate_time(arrival_time):
+    current_timestamp = int(time.time())
+    print(current_timestamp)
+    return arrival_time - current_timestamp
 
 def get_vehicle_positions():
     try:
@@ -58,7 +59,24 @@ def get_trips_by_route_id(id: int):
     except Exception as e:
         print(e)
 
+# routes
+@app.route('/')
+def hello():
+    print("hello")
+
+@app.route('/bus')
+def query(): # requires the next stop as input and estimated arrival time
+    route_63_innovation = { # relevant stops with stop id as key and mins to TM as value
+        "1898": 8, # March Road / Solandt
+        "7985": 13, # March Road / Carling
+    }
+
+    arrival_time = calculate_time(next_stop) + route_63_innovation["next_stop"] # time to get to next stop and time from that stop to TM
+    if (arrival_time < 600): # 10 minutes
+        print("Your bus (63) is arriving in " + arrival_time + " minutes")
+
+
 try:
-    get_entity_by_trip_id(97)
+    get_trips_by_route_id(97)
 except Exception as e:
     print(f"Exception found: {e}")
