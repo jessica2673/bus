@@ -63,7 +63,8 @@ def get_trips_by_route_id(id: int):
 @app.route('/')
 def hello():
     try:
-        challenge = request.args.get('challenge')
+        data = request.get_json()
+        challenge = data.get('challenge')
         return f"{challenge}"
     except Exception as e:
         return f"{e}"
