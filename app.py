@@ -184,24 +184,20 @@ def post_put_challenge():
 
 # post_message_to_slack(text="Busin")
 
-count = 0
-while True:
-    blocks = None
-    requests.post('https://slack.com/api/chat.postMessage', {
-        'token': os.getenv("SLACK_APP_TOKEN"),
-        'channel': 'busin',
-        'text': f'MIMIMIMIMIx{count}',
-        'blocks': json.dumps(blocks) if blocks else None
-    }).json()
-    count += 1
-    time.sleep(10)
 
 if __name__ == '__main__':
 
-    # run() method of Flask class runs the application 
-    # on the local development server.
     app.run()
-    # try:
-    #     get_trips_by_route_id(97)
-    # except Exception as e:
-    #     print(f"Exception found: {e}")
+
+
+    count = 0
+    while True:
+        blocks = None
+        requests.post('https://slack.com/api/chat.postMessage', {
+            'token': os.getenv("SLACK_APP_TOKEN"),
+            'channel': 'busin',
+            'text': f'MIMIMIMIMIx{count}',
+            'blocks': json.dumps(blocks) if blocks else None
+        }).json()
+        count += 1
+        time.sleep(10)
