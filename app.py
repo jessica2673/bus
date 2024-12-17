@@ -163,6 +163,18 @@ def post_put_challenge():
 
 # post_message_to_slack(text="Busin")
 
+count = 0
+while True:
+    blocks = None
+    requests.post('https://slack.com/api/chat.postMessage', {
+        'token': os.getenv("SLACK_APP_TOKEN"),
+        'channel': 'busin',
+        'text': f'MIMIMIMIMIx{count}',
+        'blocks': json.dumps(blocks) if blocks else None
+    }).json()
+    count += 1
+    time.sleep(30)
+
 if __name__ == '__main__':
 
     # run() method of Flask class runs the application 
