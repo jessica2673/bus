@@ -138,11 +138,11 @@ def post_put_challenge():
 #         "7985": 13, # March Road / Carling
 #     }
 
-try:
-    while True:
-        get_trips_by_route_id(64)
-        time.sleep(20)
+# try:
+#     while True:
+#         get_trips_by_route_id(64)
+#         time.sleep(20)
 
-except Exception as e:
-    print(f"Exception found: {e}")
+# except Exception as e:
+#     print(f"Exception found: {e}")
 
