@@ -63,8 +63,11 @@ def get_trips_by_route_id(id: int):
 @app.route('/', methods=['GET'])
 def get_challenge():
     try:
+        print('GEEEEET')
+        print(request.args)
         challenge = request.args.get('challenge')
-        return f"Challenge value from GET: {challenge}"
+        print(challenge)
+        return f"{challenge}"
     except Exception as e:
         return f"Error: {e}"
 
@@ -72,8 +75,11 @@ def get_challenge():
 @app.route('/', methods=['POST', 'PUT'])
 def post_put_challenge():
     try:
+        print('POOOOOST')
+        print(request.form)
         challenge = request.form.get('challenge')  # For form data in POST/PUT
-        return f"Challenge value from POST/PUT: {challenge}"
+        print(challenge)
+        return f"{challenge}"
     except Exception as e:
         return f"Error: {e}"
 
