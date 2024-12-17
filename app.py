@@ -4,6 +4,8 @@ from flask import Flask, request
 import os
 from dotenv import load_dotenv
 import time
+import requests
+from typing import List, Dict
 from time import strftime, localtime
 import datetime
 # from slack_sdk.errors import SlackApiError
@@ -16,6 +18,15 @@ def calculate_time(arrival_time):
     current_timestamp = int(time.time())
     print(current_timestamp)
     return arrival_time - current_timestamp
+
+def post_message_to_slack(text: str, blocks: List[Dict[str, str]] = None):
+    print(os.getenv("SLACK_APP_TOKEN"))
+    return requests.post('https://slack.com/api/chat.postMessage', {
+        'token': os.getenv("SLACK_APP_TOKEN"),
+        'channel': os.getenv("SLACK_APP_CHANNEL"),
+        'text': text,
+        'blocks': json.dumps(blocks) if blocks else None
+    }).json()
 
 def get_vehicle_positions():
     try:
@@ -124,9 +135,9 @@ def post_put_challenge():
         
         data=request.json
         print(data)
-        # if text in ["hi", "hello"]:
-        #     # Ask the user for their location (latitude and longitude)
-        #     send_slack_message(user_id, "Hello! Enter your nearest bus stop: ")
+        text = data['text']
+        if text in ["hi", "hello"]:
+            post_message_to_slack(text="Hello! Enter your nearest bus stop: ")
         return f"{data['challenge']}"
     except Exception as e:
         return f"Error: {e}"
@@ -145,4 +156,18 @@ def post_put_challenge():
 
 # except Exception as e:
 #     print(f"Exception found: {e}")
+#     arrival_time = calculate_time(next_stop) + route_63_innovation["next_stop"] # time to get to next stop and time from that stop to TM
+#     if (arrival_time < 600): # 10 minutes
+#         print("Your bus (63) is arriving in " + arrival_time + " minutes")
 
+# post_message_to_slack(text="Busin")
+
+if __name__ == '__main__':
+
+    # run() method of Flask class runs the application 
+    # on the local development server.
+    app.run()
+    # try:
+    #     get_trips_by_route_id(97)
+    # except Exception as e:
+    #     print(f"Exception found: {e}")
