@@ -230,7 +230,7 @@ def post_put_challenge():
                 elif channel in user_pending_input and user_pending_input[channel] >= 0 and text.isdigit():
                     bus = user_pending_input[channel]
                     stop = int(text)
-                    print('bus station ', text, " ", stop_to_bus_map(stop))
+                    print('bus station ', text, " ", stop_to_bus_map[stop])
                     print("channels ", channels)
                     channels[stop_to_bus_map[stop]].append(channel)
 
