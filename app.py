@@ -140,9 +140,9 @@ def get_trips_by_route_id(id = "63n"):
                     timeArrive = strftime('%Y-%m-%d %H:%M:%S', localtime(upd['Arrival']['Time']))
                     print("debugging timeArrive: " + timeArrive)
                     trips.append(obj)
-
-        print(trips)
-        print(len(trips))
+        print(f"check bus {id}")
+        print("trips: ", trips)
+        print("num trips: ", len(trips))
 
         for trip in trips:
             time_to_next = trip["Arrival"]["Time"]
@@ -150,7 +150,7 @@ def get_trips_by_route_id(id = "63n"):
 
             arrival_time = calculate_time(time_to_next) + routes[id][next_stop] # time to get to next stop and time from that stop to TM
             if (arrival_time < 600): # 10 minutes
-                for person in channels[id]: # here send a message back to each "person"
+                for person in get_users_from_route(db, id): # here send a message back to each "person"
                     post_message_to_slack("Your bus is arriving in " + arrival_time + " minutes", person)
                     print("Your bus is arriving in " + arrival_time + " minutes")
         return "Success" 
@@ -223,7 +223,7 @@ def post_put_challenge():
 
         if (text == "Hello! To add a bus subscription, enter your bus number and bus stop separated by a comma. Here are the bus stop options:\n\n 1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March" 
             or text == "All bus subscriptions removed"
-            or text == "Your desired bus is successfully configured. Type hi or hello to input another bus. Type deactivate to remove all bus subscriptions"):
+            or text == "Your desired bus is successfully configured. Type hi or hello to input another bus. \nType deactivate to remove all bus subscriptions. \nType check to check current bus subscriptions"):
             pass
         # if channel == "D085VHCS7T3":
         #     post_message_to_slack(text="mimimimimimimimimimimimi 🦆🦆🦆", channel=channel)
@@ -245,14 +245,20 @@ def post_put_challenge():
         #     if channel in user_pending_input:
         #         post_message_to_slack(text="Bus subscription operation has been cancelled", channel=channel)
         #         user_pending_input.pop(channel)
+        elif text == "check":
+            for route in ["63n", "63s", "64s", "64n"]:
 
+                users = get_users_from_route(db, route)
+                if channel in users:
+                    post_message_to_slack(text=f"You are subscribed to bus {route}", channel=channel)
+                # remove_user_from_route(db, channel, route)
         else:
             try:
                 info = text.split(',')
                 print(info)
                 if (len(info) == 2 and info[0].strip().isdigit() and info[1].strip().isdigit()):
-                    bus = int(info[1])
-                    stop = int(info[1])
+                    bus = int(info[0].strip())
+                    stop = int(info[1].strip())
                     add_user_to_route(db, channel, stop_to_bus_map[stop])
                     post_message_to_slack(text="Your desired bus is successfully configured. Type hi or hello to input another bus. Type deactivate to remove all bus subscriptions", channel=channel)
                 else:
