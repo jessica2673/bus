@@ -228,10 +228,10 @@ def post_put_challenge():
                     user_pending_input[channel] = int(text)
                     post_message_to_slack(text="Now input the number corresponding to your desired bus stop from one of these options. Type cancel to cancel: \n\n1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March", channel=channel)
                 elif channel in user_pending_input and user_pending_input[channel] >= 0:
-                    print('bus station ', text, " ", stop_to_bus_map(stop))
-                    print("channels ", channels)
                     bus = user_pending_input[channel]
                     stop = int(text)
+                    print('bus station ', text, " ", stop_to_bus_map(stop))
+                    print("channels ", channels)
                     channels[stop_to_bus_map(stop)].append(channel)
 
                     post_message_to_slack(text="Your desired bus is successfully configured. Type hi or hello to input another bus. Type deactivate to remove all bus subscriptions", channel=channel)
@@ -247,6 +247,7 @@ def post_put_challenge():
                 # pass
             except Exception as e:
                 print("ERROR ", e)
+                user_pending_input.pop(channel)
                 # pass
             # wait_on_station = False
         return f"{data['challenge']}"
