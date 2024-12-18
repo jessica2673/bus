@@ -154,7 +154,7 @@ def get_trips_by_route_id(id = "63n"):
                 print("CHANNEL: ", person)
                 post_message_to_slack("Your bus is arriving in " + str(arrival_time) + " minutes", person)
                 print("Your bus is arriving in " + str(arrival_time) + " minutes")
-            post_message_to_slack("Your bus is arriving in " + str(arrival_time) + " minutes", "U085KALRERJ")
+            post_message_to_slack("Your bus is arriving in " + str(arrival_time) + " minutes", "D085VHCQ2BT")
         return "Success" 
 
     except Exception as e:
