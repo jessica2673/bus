@@ -14,14 +14,14 @@ import datetime
 app = Flask(__name__)
 load_dotenv()
 
-# wait_on_station=False
+user_pending_input = {}
 
 # global variables
 channels = { # dictionary with key: str representing the bus and value: list of channels to notify on slack
-    "63n": {},
-    "63s": {},
-    "64s": {},
-    "64n": {},
+    "63n": [],
+    "63s": [],
+    "64s": [],
+    "64n": [],
 }
 
 def calculate_time(arrival_time):
@@ -144,9 +144,9 @@ def get_trips_by_route_id(id: str):
     except Exception as e:
         print(e)
 
-def add_person(id: str, channel: str):
-    if channel not in channels[id]:
-        channels[id].add(channel)
+# def add_person(id: str, channel: str):
+#     if channel not in channels[id]:
+#         channels[id].add(channel)
 
 # GET request handler
 @app.route('/', methods=['GET'])
@@ -162,6 +162,13 @@ def get_challenge():
         return f"{challenge}"
     except Exception as e:
         return f"Error: {e}"
+    
+stop_to_bus_map = {
+    1: "63n",
+    2: "63s",
+    3: "64s",
+    4: "64n"
+}
     
 # def send_slack_message(user_id, message): 
 #     try: 
@@ -195,14 +202,36 @@ def post_put_challenge():
         #     json_file.write(json.dumps(data))
         text = data["event"]["text"]
         channel = data['event']['channel']
-        if channel == "D085VHCS7T3":
-            # for i in range(69):
-            post_message_to_slack(text="mimimimimimimimimimimimi 🦆🦆🦆", channel=channel)
-        elif text in ["hi", "hello"]:
+        # if channel == "D085VHCS7T3":
+        #     # for i in range(69):
+        #     post_message_to_slack(text="mimimimimimimimimimimimi 🦆🦆🦆", channel=channel)
+        # el
+        if text in ["hi", "hello"]:
             # wait_on_station = True
-            post_message_to_slack(text="Hello! Enter your nearest bus stop: ", channel=channel)
+            user_pending_input[channel] = -1
+            post_message_to_slack(text="Hello! Enter your bus number with direction N/E/S/W: ", channel=channel)
+        elif text == "deactivate":
+            for k,v in channels.items():
+                if channel in v:
+                    v.remove(channel)
         else:
-            pass
+            try:
+                if user_pending_input[channel] == -1 and text.isdigit():
+                    user_pending_input[channel] = int(text)
+                    post_message_to_slack(text="Now input the number corresponding to your desired bus stop from one of these options: \n\n1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March", channel=channel)
+                elif user_pending_input[channel] >= 0:
+                    bus = user_pending_input[channel]
+                    stop = int(text)
+                    channels[stop_to_bus_map(stop)].append(channel)
+
+                    post_message_to_slack(text="Your desired bus is successfully configured. Type hi or hello to input another bus. Type deactivate to remove all bus subscriptions", channel=channel)
+                    user_pending_input.pop(channel)
+                else:
+                    pass
+                user_pending_input.pop(channel)
+                pass
+            except Exception as e:
+                pass
             # wait_on_station = False
         return f"{data['challenge']}"
     except Exception as e:
