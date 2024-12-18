@@ -197,12 +197,12 @@ def post_put_challenge():
         # print(data)
         # print(data['event'])
         print(data['event']['text'])
-        print(channel)
         # file_path = 'test.json'
         # with open(file_path, 'w') as json_file:
         #     json_file.write(json.dumps(data))
         text = data["event"]["text"]
         channel = data['event']['channel']
+        print(channel)
         # if channel == "D085VHCS7T3":
         #     # for i in range(69):
         #     post_message_to_slack(text="mimimimimimimimimimimimi 🦆🦆🦆", channel=channel)
