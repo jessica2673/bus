@@ -236,6 +236,8 @@ def post_put_challenge():
         # if channel == "D085VHCS7T3":
         #     post_message_to_slack(text="mimimimimimimimimimimimi 🦆🦆🦆", channel=channel)
         # el
+        elif text in ["busin", 'BUSIN']:
+            post_message_to_slack(text="That's me :D", channel=channel)
         elif text in ["hi", "hello"]:
             # wait_on_station = True
             # user_pending_input[channel] = -1
