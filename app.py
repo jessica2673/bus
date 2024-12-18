@@ -224,7 +224,7 @@ def post_put_challenge():
         channel = data['event']['channel']
         print(channel)
 
-        if (text == "Hello! To add a bus subscription, enter your bus number and bus stop separated by a comma. Here are the bus stop options:\n\n 1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March" 
+        if (text == "Hello! To add a bus subscription, enter your bus number and bus stop separated by a comma. Here are the bus stop options:\n\n1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March" 
             or text == "All bus subscriptions removed"
             or text == "Your desired bus is successfully configured. Type hi or hello to input another bus. \nType deactivate to remove all bus subscriptions. \nType check to check current bus subscriptions"
             or text.startswith("You are subscribed to bus ")
@@ -241,7 +241,7 @@ def post_put_challenge():
         elif text in ["hi", "hello"]:
             # wait_on_station = True
             # user_pending_input[channel] = -1
-            post_message_to_slack(text="Hello! To add a bus subscription, enter your bus number and bus stop separated by a comma. Here are the bus stop options:\n\n 1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March", channel=channel)
+            post_message_to_slack(text="Hello! To add a bus subscription, enter your bus number and bus stop separated by a comma. Here are the bus stop options:\n\n1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March", channel=channel)
         elif text == "deactivate":
             # for k,v in channels.items():
             #     if channel in v:
@@ -276,7 +276,7 @@ def post_put_challenge():
                     add_user_to_route(db, channel, stop_to_bus_map[stop])
                     post_message_to_slack(text="Your desired bus is successfully configured. Type hi or hello to input another bus. \nType deactivate to remove all bus subscriptions. \nType check to check current bus subscriptions", channel=channel)
                 else:
-                    post_message_to_slack(text="Hello! To add a bus subscription, enter your bus number and bus stop separated by a comma. Here are the bus stop options:\n\n 1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March", channel=channel)
+                    post_message_to_slack(text="Hello! To add a bus subscription, enter your bus number and bus stop separated by a comma. Here are the bus stop options:\n\n1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March", channel=channel)
                 pass
                 # if channel in user_pending_input and user_pending_input[channel] == -1 and text.isdigit():
                 #     print('bus number ', text)
@@ -313,7 +313,7 @@ def post_put_challenge():
         return f"Error: {e}"
 
 
-post_message_to_slack(text="Busin")
+# post_message_to_slack(text="Busin")
 
 
 if __name__ == '__main__':
