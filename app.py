@@ -139,7 +139,7 @@ def get_trips_by_route_id(id = "63n"):
                         continue
                     timeArrive = strftime('%Y-%m-%d %H:%M:%S', localtime(upd['Arrival']['Time']))
                     print("debugging timeArrive: " + timeArrive)
-                    trips.append(obj)
+                    trips.append(upd)
         print(f"check bus {id}")
         print("trips: ", trips)
         print("num trips: ", len(trips))
