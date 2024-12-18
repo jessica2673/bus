@@ -29,6 +29,13 @@ channels = { # dictionary with key: str representing the bus and value: list of 
     "64s": [],
     "64n": [],
 }
+    
+stop_to_bus_map = {
+    1: "63n",
+    2: "63s",
+    3: "64s",
+    4: "64n"
+}
 
 def calculate_time(arrival_time):
     current_timestamp = int(time.time())
@@ -166,13 +173,6 @@ def get_challenge():
         return f"{challenge}"
     except Exception as e:
         return f"Error: {e}"
-    
-stop_to_bus_map = {
-    1: "63n",
-    2: "63s",
-    3: "64s",
-    4: "64n"
-}
 
 # POST and PUT request handler
 @app.route('/', methods=['POST', 'PUT'])
