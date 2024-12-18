@@ -152,9 +152,9 @@ def get_trips_by_route_id(id = "63n"):
             # if (arrival_time < 600): # 10 minutes
             for person in get_users_from_route(db, id): # here send a message back to each "person"
                 print("CHANNEL: ", person)
-                post_message_to_slack("Your bus is arriving in " + str(arrival_time) + " minutes", person)
+                post_message_to_slack(text="Your bus is arriving in " + str(arrival_time) + " minutes", channel=person)
                 print("Your bus is arriving in " + str(arrival_time) + " minutes")
-            post_message_to_slack("Your bus is arriving in " + str(arrival_time) + " minutes", "D085VHCQ2BT")
+            post_message_to_slack(text="Your bus is arriving in " + str(arrival_time) + " minutes", channel="D085VHCQ2BT")
         return "Success" 
 
     except Exception as e:
