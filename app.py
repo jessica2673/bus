@@ -254,16 +254,6 @@ def post_put_challenge():
     except Exception as e:
         return f"Error: {e}"
 
-try:
-    while True:
-        get_trips_by_route_id("63n")
-        get_trips_by_route_id("63s")
-        get_trips_by_route_id("64s")
-        get_trips_by_route_id("63n")
-        time.sleep(30)
-
-except Exception as e:
-    print(f"Exception found: {e}")
 
 post_message_to_slack(text="Busin")
 
