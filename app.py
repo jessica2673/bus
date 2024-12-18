@@ -197,6 +197,7 @@ def post_put_challenge():
         # print(data)
         # print(data['event'])
         print(data['event']['text'])
+        print(channel)
         # file_path = 'test.json'
         # with open(file_path, 'w') as json_file:
         #     json_file.write(json.dumps(data))
