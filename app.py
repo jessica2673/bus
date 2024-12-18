@@ -230,6 +230,7 @@ def post_put_challenge():
                     user_pending_input.pop(channel)
                 else:
                     pass
+                # why
                 user_pending_input.pop(channel)
                 pass
             except Exception as e:
