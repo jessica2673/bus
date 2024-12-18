@@ -192,10 +192,10 @@ def post_put_challenge():
         # print(request.form)
         # challenge = request.form.get('challenge')  # For form data in POST/PUT
         # print(challenge)
-        print(request)
+        # print(request)
         data=request.json
-        print(data)
-        print(data['event'])
+        # print(data)
+        # print(data['event'])
         print(data['event']['text'])
         # file_path = 'test.json'
         # with open(file_path, 'w') as json_file:
@@ -214,14 +214,17 @@ def post_put_challenge():
             for k,v in channels.items():
                 if channel in v:
                     v.remove(channel)
+            post_message_to_slack(text="All bus subscriptions removed", channel=channel)
         else:
             try:
                 if user_pending_input[channel] == -1 and text.isdigit():
                     print('bus number ', text)
+                    print("channels ", channels)
                     user_pending_input[channel] = int(text)
                     post_message_to_slack(text="Now input the number corresponding to your desired bus stop from one of these options: \n\n1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March", channel=channel)
                 elif user_pending_input[channel] >= 0:
                     print('bus station ', text)
+                    print("channels ", channels)
                     bus = user_pending_input[channel]
                     stop = int(text)
                     channels[stop_to_bus_map(stop)].append(channel)
@@ -229,6 +232,7 @@ def post_put_challenge():
                     post_message_to_slack(text="Your desired bus is successfully configured. Type hi or hello to input another bus. Type deactivate to remove all bus subscriptions", channel=channel)
                     user_pending_input.pop(channel)
                 else:
+                    print("y u no work")
                     pass
                 # why
                 user_pending_input.pop(channel)
