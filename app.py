@@ -233,10 +233,13 @@ def post_put_challenge():
                     post_message_to_slack(text="Your desired bus is successfully configured. Type hi or hello to input another bus. Type deactivate to remove all bus subscriptions", channel=channel)
                     user_pending_input.pop(channel)
                 else:
-                    print("y u no work")
+                    if channel in user_pending_input:
+                        post_message_to_slack(text="Bus subscription operation has been cancelled", channel=channel)
+                        user_pending_input.pop(channel)
+                    else:
+                        post_message_to_slack(text="Can not understand user input. Type hi or hello to add a bus subscription", channel=channel)
                     pass
                 # why
-                user_pending_input.pop(channel)
                 pass
             except Exception as e:
                 pass
