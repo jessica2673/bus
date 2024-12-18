@@ -138,7 +138,7 @@ def get_trips_by_route_id(id = "63n"):
                         print("No departure found")
                         continue
                     timeArrive = strftime('%Y-%m-%d %H:%M:%S', localtime(upd['Arrival']['Time']))
-                    print("debugging timeArrive: " + timeArrive)
+                    print("debugging timeArrive: " + str(timeArrive))
                     trips.append(upd)
         print(f"check bus {id}")
         print("trips: ", trips)
@@ -151,8 +151,8 @@ def get_trips_by_route_id(id = "63n"):
             arrival_time = calculate_time(time_to_next) + routes[id][next_stop] # time to get to next stop and time from that stop to TM
             # if (arrival_time < 600): # 10 minutes
             for person in get_users_from_route(db, id): # here send a message back to each "person"
-                post_message_to_slack("Your bus is arriving in " + arrival_time + " minutes", person)
-                print("Your bus is arriving in " + arrival_time + " minutes")
+                post_message_to_slack("Your bus is arriving in " + str(arrival_time) + " minutes", person)
+                print("Your bus is arriving in " + str(arrival_time) + " minutes")
         return "Success" 
 
     except Exception as e:
