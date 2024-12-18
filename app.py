@@ -70,9 +70,38 @@ def get_trips_by_route_id(id: str):
         response = urllib.request.urlopen(req)
         
         routes = { # relevant stops with stop id as key and mins to TM as value
-            "63": { # route_63_innovation
-                "665": 8, # March Road / Solandt
-                "663": 13, # March Road / Carling
+            "63": { # route_63_innovation going north
+                "665": 6, # March Road / Solandt
+                "663": 10, # March Road / Carling
+            },
+            "663": { # route_63_innovation going south
+                "2824": 5, # March Road / Ad. 501
+                "671": 6, # Terry Fox / March
+                "7958": 6, # Innovation / Terry Fox
+                "9546": 8, # Innovation B
+                "4574": 10, # Flamborough / Terry Fox
+            },
+            "64": { # route 64 going south from TM
+                "609": 3, # Hines / Innovation
+                "608": 3, # Innovation / Hines
+                "607": 5, # Innovation / Ad. 2000
+                "606": 5, # Innovation / Ad. 3000
+                "605": 5, # Innovation / Goulbourn Forced
+                "9546": 5, # Innovation A
+                "4574": 7, # Flamborough / Terry Fox
+                "4573": 8, # Flamborough / Halton
+                "2705": 9, # Flamborough / Laxford
+                "2704": 10, # Flamborough / Keighley
+            },
+            "64": { # route 64 going north from TM
+                "664": 1, # Solandt / March
+                "599": 5, # Legget / Solandt
+                "598": 5, # Legget / Ad. 350
+                "597": 6, # Legget / Ad. 309
+                "5144": 8, # 4048 Carling
+                "663": 8, # March Road / Carling
+                "662": 9, # 360 March
+                "661": 10, # March / Teron
             },
         }
         
