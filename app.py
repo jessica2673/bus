@@ -209,7 +209,7 @@ def post_put_challenge():
         if text in ["hi", "hello"]:
             # wait_on_station = True
             user_pending_input[channel] = -1
-            post_message_to_slack(text="Hello! Enter your bus number with direction N/E/S/W: ", channel=channel)
+            post_message_to_slack(text="Hello! Enter your bus number: ", channel=channel)
         elif text == "deactivate":
             for k,v in channels.items():
                 if channel in v:
@@ -217,9 +217,11 @@ def post_put_challenge():
         else:
             try:
                 if user_pending_input[channel] == -1 and text.isdigit():
+                    print('bus number ', text)
                     user_pending_input[channel] = int(text)
                     post_message_to_slack(text="Now input the number corresponding to your desired bus stop from one of these options: \n\n1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March", channel=channel)
                 elif user_pending_input[channel] >= 0:
+                    print('bus station ', text)
                     bus = user_pending_input[channel]
                     stop = int(text)
                     channels[stop_to_bus_map(stop)].append(channel)
