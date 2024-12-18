@@ -138,6 +138,7 @@ def get_trips_by_route_id(id: str):
             arrival_time = calculate_time(time_to_next) + routes[id][next_stop] # time to get to next stop and time from that stop to TM
             if (arrival_time < 600): # 10 minutes
                 for person in channels[id]: # here send a message back to each "person"
+                    post_message_to_slack("Your bus is arriving in " + arrival_time + " minutes", person)
                     print("Your bus is arriving in " + arrival_time + " minutes")
 
     except Exception as e:
@@ -207,25 +208,18 @@ def post_put_challenge():
     except Exception as e:
         return f"Error: {e}"
 
-# @app.route('/bus')
-# def query(): # requires the next stop as input and estimated arrival time
-#     route_63_innovation = { # relevant stops with stop id as key and mins to TM as value
-#         "1898": 8, # March Road / Solandt
-#         "7985": 13, # March Road / Carling
-#     }
+try:
+    while True:
+        get_trips_by_route_id("63n")
+        get_trips_by_route_id("63s")
+        get_trips_by_route_id("64s")
+        get_trips_by_route_id("63n")
+        time.sleep(30)
 
-# try:
-#     while True:
-#         get_trips_by_route_id(64)
-#         time.sleep(20)
+except Exception as e:
+    print(f"Exception found: {e}")
 
-# except Exception as e:
-#     print(f"Exception found: {e}")
-#     arrival_time = calculate_time(next_stop) + route_63_innovation["next_stop"] # time to get to next stop and time from that stop to TM
-#     if (arrival_time < 600): # 10 minutes
-#         print("Your bus (63) is arriving in " + arrival_time + " minutes")
-
-# post_message_to_slack(text="Busin")
+post_message_to_slack(text="Busin")
 
 
 if __name__ == '__main__':
