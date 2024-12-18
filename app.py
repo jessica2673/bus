@@ -224,9 +224,13 @@ def post_put_challenge():
             user_pending_input[channel] = -1
             post_message_to_slack(text="Hello! Enter your bus number. Type cancel to cancel: ", channel=channel)
         elif text == "deactivate":
-            for k,v in channels.items():
-                if channel in v:
-                    v.remove(channel)
+            # for k,v in channels.items():
+            #     if channel in v:
+            #         v.remove(channel)
+
+            for route in ["63n", "63s", "64s", "64n"]:
+
+                remove_user_from_route(db, channel, route)
             post_message_to_slack(text="All bus subscriptions removed", channel=channel)
         elif text == "cancel":
             if channel in user_pending_input:
@@ -245,6 +249,8 @@ def post_put_challenge():
                     print('bus station ', text, " ", stop_to_bus_map[stop])
                     print("channels ", channels)
                     channels[stop_to_bus_map[stop]].append(channel)
+
+                    add_user_to_route(db, channel, stop_to_bus_map[stop])
 
                     post_message_to_slack(text="Your desired bus is successfully configured. Type hi or hello to input another bus. Type deactivate to remove all bus subscriptions", channel=channel)
                     user_pending_input.pop(channel)
