@@ -249,7 +249,8 @@ def post_put_challenge():
         else:
             try:
                 info = text.split(',')
-                if (len(info) != 2 and info[0].isdigit() and info[1].isdigit()):
+                print(info)
+                if (len(info) != 2 and info[0].strip().isdigit() and info[1].strip().isdigit()):
                     bus = int(info[1])
                     stop = int(info[1])
                     add_user_to_route(db, channel, stop_to_bus_map[stop])
