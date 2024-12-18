@@ -73,7 +73,9 @@ def get_vehicle_positions():
 
 # id is the bus (63n, 63s, 64n, 64s)
 @app.route('/update/', methods=['GET'])
-def get_trips_by_route_id(id: str):
+def get_trips_by_route_id(id = "63n"):
+    # id = request.args.get("id")
+    # id = "63n"
     global channels
     try:
         url = "https://nextrip-public-api.azure-api.net/octranspo/gtfs-rt-tp/beta/v1/TripUpdates?format=json"
@@ -218,10 +220,15 @@ def post_put_challenge():
         text = data["event"]["text"]
         channel = data['event']['channel']
         print(channel)
+
+        if (text == "Hello! To add a bus subscription, enter your bus number and bus stop separated by a comma. Here are the bus stop options:\n\n 1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March" 
+            or text == "All bus subscriptions removed"
+            or text == "Your desired bus is successfully configured. Type hi or hello to input another bus. Type deactivate to remove all bus subscriptions"):
+            pass
         # if channel == "D085VHCS7T3":
         #     post_message_to_slack(text="mimimimimimimimimimimimi 🦆🦆🦆", channel=channel)
         # el
-        if text in ["hi", "hello"]:
+        elif text in ["hi", "hello"]:
             # wait_on_station = True
             # user_pending_input[channel] = -1
             post_message_to_slack(text="Hello! To add a bus subscription, enter your bus number and bus stop separated by a comma. Here are the bus stop options:\n\n 1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March", channel=channel)
