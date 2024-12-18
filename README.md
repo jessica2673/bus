@@ -1,8 +1,8 @@
 our bus app!
 
-### Installation
-
 ![Busin Slack Bot Screenshot](./Screenshot%202024-12-18%20at%202.51.57%20PM.png)
+
+### Installation
 
 1. Create a Virtual Environment
 ```
