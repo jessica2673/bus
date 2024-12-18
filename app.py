@@ -64,6 +64,7 @@ def get_vehicle_positions():
 
 # id is the bus (63n, 63s, 64n, 64s)
 def get_trips_by_route_id(id: str):
+    global channels
     try:
         url = "https://nextrip-public-api.azure-api.net/octranspo/gtfs-rt-tp/beta/v1/TripUpdates?format=json"
 
@@ -151,6 +152,7 @@ def get_trips_by_route_id(id: str):
 # GET request handler
 @app.route('/', methods=['GET'])
 def get_challenge():
+    global channels
     try:
         print('GEEEEET')
         print(request.args)
@@ -179,6 +181,7 @@ stop_to_bus_map = {
 # POST and PUT request handler
 @app.route('/', methods=['POST', 'PUT'])
 def post_put_challenge():
+    global channels
     # event = data["event"]
     # used_id = event.get("user")
     # text = event.get("text", "").lower()
