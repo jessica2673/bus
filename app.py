@@ -226,7 +226,9 @@ def post_put_challenge():
             or text == "Your desired bus is successfully configured. Type hi or hello to input another bus. \nType deactivate to remove all bus subscriptions. \nType check to check current bus subscriptions"
             or text.startswith("You are subscribed to bus ")
             or text.startswith("Your bus is arriving in ")
-):
+            or text == "You are not subscribed to any buses"
+            
+        ):
             pass
         # if channel == "D085VHCS7T3":
         #     post_message_to_slack(text="mimimimimimimimimimimimi 🦆🦆🦆", channel=channel)
@@ -249,12 +251,16 @@ def post_put_challenge():
         #         post_message_to_slack(text="Bus subscription operation has been cancelled", channel=channel)
         #         user_pending_input.pop(channel)
         elif text == "check":
+            msg_sent = False
             for route in ["63n", "63s", "64s", "64n"]:
 
                 users = get_users_from_route(db, route)
                 if channel in users:
                     post_message_to_slack(text=f"You are subscribed to bus {route}", channel=channel)
+                    msg_sent = True
                 # remove_user_from_route(db, channel, route)
+            if not msg_sent:
+                post_message_to_slack(text=f"You are not subscribed to any buses", channel=channel)
         else:
             try:
                 info = text.split(',')
