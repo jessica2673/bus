@@ -74,7 +74,7 @@ def get_vehicle_positions():
 # id is the bus (63n, 63s, 64n, 64s)
 @app.route('/update/', methods=['GET'])
 def get_trips_by_route_id(id = "63n"):
-    # id = request.args.get("id")
+    id = request.args.get("id")
     # id = "63n"
     global channels
     try:
