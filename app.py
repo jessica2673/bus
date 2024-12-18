@@ -156,8 +156,9 @@ def get_trips_by_route_id(id = "63n"):
         return "Success" 
 
     except Exception as e:
-        print(e)
-        return f"{e}"
+        print(f"Error string: {e}")
+        print(f"Error", e)
+        return f"Error: {e}"
 
 # def add_person(id: str, channel: str):
 #     if channel not in channels[id]:
