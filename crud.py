@@ -2,31 +2,31 @@ import random
 import json
 
 
-def add_room(db, _id):
+def add_route(db, _id):
     try:
         routes = db.routes
         routes.insert_one({"_id": _id, "users": []})
     except:
-        print("Failed to create room")
+        print("Failed to create route")
 
 
-def delete_room(db, _id):
+def delete_route(db, _id):
     try:
         routes = db.routes
         routes.delete_one({"_id": _id})
     except:
-        print("Room does not exist")
+        print("route does not exist")
 
 
-def add_user_to_room(db, user_id, room_id):
-    if (db.routes.find_one({"_id": room_id})) is None:
-        add_room(db, room_id)
+def add_user_to_route(db, user_id, route_id):
+    if (db.routes.find_one({"_id": route_id})) is None:
+        add_route(db, route_id)
     try:
         routes = db.routes
         data = routes.find()
         for item in data:
-            print("get room id", item)
-        routes.update_one({"_id": room_id}, {"$push": {"users": user_id}})
+            print("get route id", item)
+        routes.update_one({"_id": route_id}, {"$push": {"users": user_id}})
 
         users = db.users
         if (users.find_one({"_id": user_id})) is None:
@@ -37,15 +37,15 @@ def add_user_to_room(db, user_id, room_id):
                 print("Failed creating user")
 
     except:
-        print("Failed to add user to room")
+        print("Failed to add user to route")
 
 
-def remove_user_from_room(db, user_id, room_id):
+def remove_user_from_route(db, user_id, route_id):
     try:
         routes = db.routes
-        routes.update_one({"_id": room_id}, {"$pull": {"users": user_id}})
+        routes.update_one({"_id": route_id}, {"$pull": {"users": user_id}})
     except:
-        print("Failed to remove user from room")
+        print("Failed to remove user from route")
 
 
 def remove_user(db, user_id):
@@ -56,23 +56,23 @@ def remove_user(db, user_id):
         print("Failed to remove user")
 
 
-def get_users_from_room(db, room_id):
+def get_users_from_route(db, route_id):
     try:
         routes = db.routes
-        return routes.find_one({"_id": room_id})["users"]
+        return routes.find_one({"_id": route_id})["users"]
     except:
         print("Failed to get routes users")
 
 
-def get_room_id_from_user(db, user_id):
+def get_route_id_from_user(db, user_id):
     try:
         routes = db.routes
         data = routes.find()
         for item in data:
-            print("get room id", item)
+            print("get route id", item)
         return routes.find_one({"users": {"$in": [user_id]}})["_id"]
     except:
-        print("Failed to find room user is in")
+        print("Failed to find route user is in")
         return 0
 
 
