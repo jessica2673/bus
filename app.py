@@ -130,7 +130,7 @@ def get_trips_by_route_id(id = "63n"):
         trips = []
         for obj in json.loads(response.read())['Entity']:
             # print(obj['TripUpdate'])
-            if (obj['TripUpdate']['Trip']['RouteId'] != id):
+            if (obj['TripUpdate']['Trip']['RouteId'] != id[:-1]):
                 continue
             for upd in obj['TripUpdate']['StopTimeUpdate']:
                 if (upd['StopId'] in routes[id]):
