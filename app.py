@@ -1,4 +1,3 @@
-########### Python 3.2 #############
 import urllib.request, json
 from flask import Flask, request
 import os
@@ -23,8 +22,6 @@ from Database.config import db
 app = Flask(__name__)
 load_dotenv()
 
-# user_pending_input = {}
-
 # global variables
 channels = { # dictionary with key: str representing the bus and value: list of channels to notify on slack
     "63n": [],
@@ -41,8 +38,6 @@ def calculate_time(arrival_time):
 def post_message_to_slack(text: str, blocks: List[Dict[str, str]] = None, channel: str = os.getenv("SLACK_APP_CHANNEL")):
     print("token ", os.getenv("SLACK_APP_TOKEN"))
     print("channel ", os.getenv("SLACK_APP_CHANNEL"))
-    # if channel == "D085VHCS7T3":
-    #     text = "mimimimimimi"
     return requests.post('https://slack.com/api/chat.postMessage', {
         'token': os.getenv("SLACK_APP_TOKEN"),
         'channel': channel,
@@ -55,7 +50,6 @@ def get_vehicle_positions():
         url = "https://nextrip-public-api.azure-api.net/octranspo/gtfs-rt-vp/beta/v1/VehiclePositions?format=json"
 
         hdr ={
-            # Request headers
             'Cache-Control': 'no-cache',
             'Ocp-Apim-Subscription-Key': str(os.getenv('API_KEY')),
         }
@@ -65,8 +59,6 @@ def get_vehicle_positions():
         req.get_method = lambda: 'GET'
         response = urllib.request.urlopen(req)
         print(response.read())
-
-        # parse data
 
     except Exception as e:
         print(e)
@@ -154,7 +146,6 @@ def get_trips_by_route_id(id = "63n"):
                     print("CHANNEL: ", person)
                     post_message_to_slack(text=f"Your bus {id} is arriving in " + str(arrival_time//60) + " minutes", channel=person)
                     print("Your bus is arriving in " + str(arrival_time) + " minutes")
-            # post_message_to_slack(text="Your bus is arriving in " + str(arrival_time) + " minutes", channel="D085VHCQ2BT")
         return "Success" 
 
     except Exception as e:
@@ -162,22 +153,16 @@ def get_trips_by_route_id(id = "63n"):
         print(f"Error", e)
         return f"Error: {e}"
 
-# def add_person(id: str, channel: str):
-#     if channel not in channels[id]:
-#         channels[id].add(channel)
-
 # GET request handler
 @app.route('/', methods=['GET'])
 def get_challenge():
     global channels
     try:
-        print('GEEEEET')
+        print('GET')
         print(request.args)
         challenge = request.args.get('challenge')
         print(challenge)
 
-        # data=request.json
-        # print(data)
         return f"{challenge}"
     except Exception as e:
         return f"Error: {e}"
@@ -188,38 +173,16 @@ stop_to_bus_map = {
     3: "64s",
     4: "64n"
 }
-    
-# def send_slack_message(user_id, message): 
-#     try: 
-#         slack_client.chat_postMessage(channel=user_id, text=message) 
-#     except SlackApiError as e: 
-#         print(f"Error sending message: {e.response['error']}")
 
 # POST and PUT request handler
 @app.route('/', methods=['POST', 'PUT'])
 def post_put_challenge():
     global channels
-    # event = data["event"]
-    # used_id = event.get("user")
-    # text = event.get("text", "").lower()
-
     try:
-        # if wait_on_station:
-
-
-
-        print('POOOOOST')
-        # print(request.form)
-        # challenge = request.form.get('challenge')  # For form data in POST/PUT
-        # print(challenge)
-        # print(request)
+        print('POST')
         data=request.json
-        # print(data)
         print(data['event'])
         print(data['event']['text'])
-        # file_path = 'test.json'
-        # with open(file_path, 'w') as json_file:
-        #     json_file.write(json.dumps(data))
         text = data["event"]["text"]
         channel = data['event']['channel']
         print(channel)
@@ -233,28 +196,15 @@ def post_put_challenge():
             or "bot_profile" in data["event"]
         ):
             pass
-        # if channel == "D085VHCS7T3":
-        #     post_message_to_slack(text="mimimimimimimimimimimimi 🦆🦆🦆", channel=channel)
-        # el
         elif text in ["busin", 'BUSIN']:
             post_message_to_slack(text="That's me :D", channel=channel)
         elif text in ["hi", "hello"]:
-            # wait_on_station = True
-            # user_pending_input[channel] = -1
             post_message_to_slack(text="Hello! To add a bus subscription, enter your bus number and bus stop separated by a comma. Here are the bus stop options:\n\n1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March", channel=channel)
         elif text == "deactivate":
-            # for k,v in channels.items():
-            #     if channel in v:
-            #         v.remove(channel)
-
             for route in ["63n", "63s", "64s", "64n"]:
 
                 remove_user_from_route(db, channel, route)
             post_message_to_slack(text="All bus subscriptions removed", channel=channel)
-        # elif text == "cancel":
-        #     if channel in user_pending_input:
-        #         post_message_to_slack(text="Bus subscription operation has been cancelled", channel=channel)
-        #         user_pending_input.pop(channel)
         elif text == "check":
             msg_sent = False
             for route in ["63n", "63s", "64s", "64n"]:
@@ -263,7 +213,6 @@ def post_put_challenge():
                 if channel in users:
                     post_message_to_slack(text=f"You are subscribed to bus {route}", channel=channel)
                     msg_sent = True
-                # remove_user_from_route(db, channel, route)
             if not msg_sent:
                 post_message_to_slack(text=f"You are not subscribed to any buses", channel=channel)
         else:
@@ -278,57 +227,13 @@ def post_put_challenge():
                 else:
                     post_message_to_slack(text="Hello! To add a bus subscription, enter your bus number and bus stop separated by a comma. Here are the bus stop options:\n\n1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March", channel=channel)
                 pass
-                # if channel in user_pending_input and user_pending_input[channel] == -1 and text.isdigit():
-                #     print('bus number ', text)
-                #     print("channels ", channels)
-                #     user_pending_input[channel] = int(text)
-                #     post_message_to_slack(text="Now input the number corresponding to your desired bus stop from one of these options. Type cancel to cancel: \n\n1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March", channel=channel)
-                # elif channel in user_pending_input and user_pending_input[channel] >= 0 and text.isdigit():
-                #     bus = user_pending_input[channel]
-                #     stop = int(text)
-                #     print('bus station ', text, " ", stop_to_bus_map[stop])
-                #     print("channels ", channels)
-                #     channels[stop_to_bus_map[stop]].append(channel)
-
-                #     add_user_to_route(db, channel, stop_to_bus_map[stop])
-
-                #     post_message_to_slack(text="Your desired bus is successfully configured. Type hi or hello to input another bus. Type deactivate to remove all bus subscriptions", channel=channel)
-                #     user_pending_input.pop(channel)
-                # else:
-                #     if channel in user_pending_input:
-                #         post_message_to_slack(text="Invalid input. Bus subscription operation has been cancelled", channel=channel)
-                #         user_pending_input.pop(channel)
-                    # else:
-                    #     post_message_to_slack(text="Can not understand user input. Type hi or hello to add a bus subscription", channel=channel)
-                    # pass
-                # why
-                # pass
             except Exception as e:
                 print("ERROR ", e)
-                # user_pending_input.pop(channel)
-                # pass
-            # wait_on_station = False
         return f"{data['challenge']}"
     except Exception as e:
         return f"Error: {e}"
 
 
-# post_message_to_slack(text="Busin")
-
-
 if __name__ == '__main__':
 
     app.run()
-
-
-    # count = 0
-    # while True:
-    #     blocks = None
-    #     requests.post('https://slack.com/api/chat.postMessage', {
-    #         'token': os.getenv("SLACK_APP_TOKEN"),
-    #         'channel': 'busin',
-    #         'text': f'MIMIMIMIMIx{count}',
-    #         'blocks': json.dumps(blocks) if blocks else None
-    #     }).json()
-    #     count += 1
-    #     time.sleep(5)
