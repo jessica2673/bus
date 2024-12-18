@@ -7,7 +7,8 @@ load_dotenv()
 
 from pymongo.mongo_client import MongoClient
 
-uri = f"{os.getenv('DB_URL')}"
+# uri = f"{os.getenv('DB_URL')}"
+uri = f"mongodb+srv://{os.getenv("DB_USERNAME")}:{os.getenv("DB_PASSWORD")}@cluster0.uoprf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 # Create a new client and connect to the server
 client = MongoClient(uri, server_api=ServerApi('1'))
