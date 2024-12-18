@@ -227,7 +227,7 @@ def post_put_challenge():
                     print("channels ", channels)
                     user_pending_input[channel] = int(text)
                     post_message_to_slack(text="Now input the number corresponding to your desired bus stop from one of these options. Type cancel to cancel: \n\n1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March", channel=channel)
-                elif channel in user_pending_input and user_pending_input[channel] >= 0:
+                elif channel in user_pending_input and user_pending_input[channel] >= 0 and text.isdigit():
                     bus = user_pending_input[channel]
                     stop = int(text)
                     print('bus station ', text, " ", stop_to_bus_map(stop))
