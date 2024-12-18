@@ -1,6 +1,7 @@
 our bus app!
 
 ![Busin Slack Bot Screenshot](./Screenshot%202024-12-18%20at%202.51.57%20PM.png)
+![Busin Slack Bot Screenshot](./Screenshot%202024-12-18%20at%202.55.38%20PM.png)
 
 ### Installation
 
