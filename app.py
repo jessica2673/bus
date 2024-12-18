@@ -223,7 +223,9 @@ def post_put_challenge():
 
         if (text == "Hello! To add a bus subscription, enter your bus number and bus stop separated by a comma. Here are the bus stop options:\n\n 1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March" 
             or text == "All bus subscriptions removed"
-            or text == "Your desired bus is successfully configured. Type hi or hello to input another bus. \nType deactivate to remove all bus subscriptions. \nType check to check current bus subscriptions"):
+            or text == "Your desired bus is successfully configured. Type hi or hello to input another bus. \nType deactivate to remove all bus subscriptions. \nType check to check current bus subscriptions"
+            or text.startswith("You are subscribed to bus ")
+):
             pass
         # if channel == "D085VHCS7T3":
         #     post_message_to_slack(text="mimimimimimimimimimimimi 🦆🦆🦆", channel=channel)
