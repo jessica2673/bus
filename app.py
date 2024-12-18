@@ -149,10 +149,10 @@ def get_trips_by_route_id(id = "63n"):
             next_stop = trip["StopId"]
 
             arrival_time = calculate_time(time_to_next) + routes[id][next_stop] # time to get to next stop and time from that stop to TM
-            if (arrival_time < 200): # 10 minutes
+            if (arrival_time/60 < 10): # 10 minutes
                 for person in get_users_from_route(db, id): # here send a message back to each "person"
                     print("CHANNEL: ", person)
-                    post_message_to_slack(text=f"Your bus {id} is arriving in " + str(arrival_time) + " minutes", channel=person)
+                    post_message_to_slack(text=f"Your bus {id} is arriving in " + str(arrival_time/60) + " minutes", channel=person)
                     print("Your bus is arriving in " + str(arrival_time) + " minutes")
             # post_message_to_slack(text="Your bus is arriving in " + str(arrival_time) + " minutes", channel="D085VHCQ2BT")
         return "Success" 
