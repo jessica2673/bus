@@ -228,7 +228,7 @@ def post_put_challenge():
             or text.startswith("You are subscribed to bus ")
             or text.startswith("Your bus is arriving in ")
             or text == "You are not subscribed to any buses"
-            
+            or "bot_profile" in data["event"]
         ):
             pass
         # if channel == "D085VHCS7T3":
