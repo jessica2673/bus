@@ -210,19 +210,23 @@ def post_put_challenge():
         if text in ["hi", "hello"]:
             # wait_on_station = True
             user_pending_input[channel] = -1
-            post_message_to_slack(text="Hello! Enter your bus number: ", channel=channel)
+            post_message_to_slack(text="Hello! Enter your bus number. Type cancel to cancel: ", channel=channel)
         elif text == "deactivate":
             for k,v in channels.items():
                 if channel in v:
                     v.remove(channel)
             post_message_to_slack(text="All bus subscriptions removed", channel=channel)
+        elif text == "cancel":
+            if channel in user_pending_input:
+                post_message_to_slack(text="Bus subscription operation has been cancelled", channel=channel)
+                user_pending_input.pop(channel)
         else:
             try:
                 if channel in user_pending_input and user_pending_input[channel] == -1 and text.isdigit():
                     print('bus number ', text)
                     print("channels ", channels)
                     user_pending_input[channel] = int(text)
-                    post_message_to_slack(text="Now input the number corresponding to your desired bus stop from one of these options: \n\n1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March", channel=channel)
+                    post_message_to_slack(text="Now input the number corresponding to your desired bus stop from one of these options. Type cancel to cancel: \n\n1. (63n) March Road / Solandt\n2. (63s) March Road / Ad. 501\n3. (64s) Hines / Innovation\n4. (64n) Solandt / March", channel=channel)
                 elif channel in user_pending_input and user_pending_input[channel] >= 0:
                     print('bus station ', text, " ", stop_to_bus_map(stop))
                     print("channels ", channels)
@@ -232,18 +236,18 @@ def post_put_challenge():
 
                     post_message_to_slack(text="Your desired bus is successfully configured. Type hi or hello to input another bus. Type deactivate to remove all bus subscriptions", channel=channel)
                     user_pending_input.pop(channel)
-                else:
-                    if channel in user_pending_input:
-                        post_message_to_slack(text="Invalid input. Bus subscription operation has been cancelled", channel=channel)
-                        user_pending_input.pop(channel)
-                    else:
-                        post_message_to_slack(text="Can not understand user input. Type hi or hello to add a bus subscription", channel=channel)
-                    pass
+                # else:
+                #     if channel in user_pending_input:
+                #         post_message_to_slack(text="Invalid input. Bus subscription operation has been cancelled", channel=channel)
+                #         user_pending_input.pop(channel)
+                    # else:
+                    #     post_message_to_slack(text="Can not understand user input. Type hi or hello to add a bus subscription", channel=channel)
+                    # pass
                 # why
-                pass
+                # pass
             except Exception as e:
                 print("ERROR ", e)
-                pass
+                # pass
             # wait_on_station = False
         return f"{data['challenge']}"
     except Exception as e:
