@@ -232,7 +232,7 @@ def post_put_challenge():
                     stop = int(text)
                     print('bus station ', text, " ", stop_to_bus_map(stop))
                     print("channels ", channels)
-                    channels[stop_to_bus_map(stop)].append(channel)
+                    channels[stop_to_bus_map[stop]].append(channel)
 
                     post_message_to_slack(text="Your desired bus is successfully configured. Type hi or hello to input another bus. Type deactivate to remove all bus subscriptions", channel=channel)
                     user_pending_input.pop(channel)
