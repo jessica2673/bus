@@ -16,6 +16,14 @@ load_dotenv()
 
 # wait_on_station=False
 
+# global variables
+channels = { # dictionary with key: str representing the bus and value: list of channels to notify on slack
+    "63n": {},
+    "63s": {},
+    "64s": {},
+    "64n": {},
+}
+
 def calculate_time(arrival_time):
     current_timestamp = int(time.time())
     print(current_timestamp)
@@ -54,6 +62,7 @@ def get_vehicle_positions():
     except Exception as e:
         print(e)
 
+# id is the bus (63n, 63s, 64n, 64s)
 def get_trips_by_route_id(id: str):
     try:
         url = "https://nextrip-public-api.azure-api.net/octranspo/gtfs-rt-tp/beta/v1/TripUpdates?format=json"
@@ -70,18 +79,18 @@ def get_trips_by_route_id(id: str):
         response = urllib.request.urlopen(req)
         
         routes = { # relevant stops with stop id as key and mins to TM as value
-            "63": { # route_63_innovation going north
+            "63n": { # route_63_innovation going north
                 "665": 6, # March Road / Solandt
                 "663": 10, # March Road / Carling
             },
-            "663": { # route_63_innovation going south
+            "63s": { # route_63_innovation going south
                 "2824": 5, # March Road / Ad. 501
                 "671": 6, # Terry Fox / March
                 "7958": 6, # Innovation / Terry Fox
                 "9546": 8, # Innovation B
                 "4574": 10, # Flamborough / Terry Fox
             },
-            "64": { # route 64 going south from TM
+            "64s": { # route 64 going south from TM
                 "609": 3, # Hines / Innovation
                 "608": 3, # Innovation / Hines
                 "607": 5, # Innovation / Ad. 2000
@@ -93,7 +102,7 @@ def get_trips_by_route_id(id: str):
                 "2705": 9, # Flamborough / Laxford
                 "2704": 10, # Flamborough / Keighley
             },
-            "64": { # route 64 going north from TM
+            "64n": { # route 64 going north from TM
                 "664": 1, # Solandt / March
                 "599": 5, # Legget / Solandt
                 "598": 5, # Legget / Ad. 350
@@ -128,10 +137,15 @@ def get_trips_by_route_id(id: str):
 
             arrival_time = calculate_time(time_to_next) + routes[id][next_stop] # time to get to next stop and time from that stop to TM
             if (arrival_time < 600): # 10 minutes
-                print("Your bus is arriving in " + arrival_time + " minutes")
+                for person in channels[id]: # here send a message back to each "person"
+                    print("Your bus is arriving in " + arrival_time + " minutes")
 
     except Exception as e:
         print(e)
+
+def add_person(id: str, channel: str):
+    if channel not in channels[id]:
+        channels[id].add(channel)
 
 # GET request handler
 @app.route('/', methods=['GET'])
